@@ -1,9 +1,8 @@
 /**
  * Création d'une classe Canap    
- * @constructor appelé par newCanap, construit notre nouvel objet js de la classe Canap
- * @param {jsonCanap}  l'objet au format json ayant les informations sur le canapé.
- * @this   fait référence à notre objet en construction
- * 
+ * @constructor appelé par new Canap, construit notre nouvel objet js de la classe Canap
+ * @param {jsonCanap}  l'objet au format json venant du serveur ayant les informations sur le canapé.
+ * @this fait référence à notre objet en construction
  */
 
 
@@ -17,6 +16,5 @@ class Canap{
         this.description = jsonCanap.description;
         this.altTxt = jsonCanap.altTxt;
         //jsonCanap && Object.assign(this,jsonCanap); métode plus rapide ...
-
     }
 }

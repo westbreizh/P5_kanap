@@ -1,17 +1,17 @@
 /** 
- *  modification de la valeur de la propriété quantity de l'objet canapKart dans le local storage
- * @param {id} l'identifiant, le numéro du canapé 
+ * fonction de modification de la valeur de la propriété quantity de l'objet canapKart dans le local storage au click sur le bouton 
+ * @param {id}, l'identifiant, le numéro du canapé 
  * @param {color}, la couleur du canapé 
- * @param {quantity} la quantité des canapés nouvellement modifié par le client
+ * @param {quantity}, la quantité des canapés nouvellement modifié par le client
 */
 
 function changeQuantity(id, color, quantity) {
     let jsonArray = localStorage.getItem("arrayKey"); // récupère le tableau dans le local storage
-    let array = JSON.parse(jsonArray); 
-    for (let canapKart of array) {  // on récupère le bon canapé du local storage qui correspond à celui dont la qauntité a été changé par l 'utilisateur
-        if (canapKart._id == id && canapKart.color == color) {
-            canapKart.quantity = quantity;
-            jsonArray = JSON.stringify(array);
+    let array = JSON.parse(jsonArray); // on transforme l'objet json en js
+    for (let canapKart of array) {  // pour chaque canapé dans le local storage
+        if (canapKart._id == id && canapKart.color == color) { // on vérifie si il correspond au canapé dont la quantité est modifié par l'utilisateur
+            canapKart.quantity = quantity; // on affecte la nouvelle quantitée
+            jsonArray = JSON.stringify(array);// on transforme l'objet js en json
             localStorage.setItem("arrayKey", jsonArray); // on réinitialise le tableau dans le local storage
             break;
         }
@@ -20,7 +20,7 @@ function changeQuantity(id, color, quantity) {
 
 
 /** 
-* récupération  de l'id, de la couleur et de la quantité du canapé dont la quantité est modifié via le input
+* fonction de récupération  de l'id, de la couleur et de la quantité du canapé dont la quantité est modifié via le input
 *puis appel de la fonction  "changequantity" pour modification de la valeur quantity dans le local storage
 *@param{event} l'objet evenement renoyé automatiquement par l'api au gestionnaire d'évenement
 */
@@ -56,7 +56,7 @@ deletCanapInlocalStorage(id, color) // appel de la fonction
 
 
 /** 
-* fonction supprimant le canpé cliqué dans le localStorage
+* fonction supprimant le canapé cliqué dans le localStorage
 *@param{id} l'identifiant du canapé sélectionné
 *@param{color} la couleur du canapé sélectionné
 */
@@ -78,11 +78,12 @@ function deletCanapInlocalStorage(id, color) {
 
 
 /** 
-* fonction calculant le nombre total de canapé commandé
-
+* fonction calculant et affichant le nombre total de canapé commandé
 */
 
-function calculTotalQuantity() {
+
+function calculAndInsertTotalQuantity() {
+    let totalQuantityMarkup= document.getElementById("totalQuantity");
     let jsonArray = localStorage.getItem("arrayKey"); // récupère le tableau dans le local storage
     let array = JSON.parse(jsonArray);
     let totalQuantity = 0 ; // on déclare la vairiable  
@@ -90,11 +91,11 @@ function calculTotalQuantity() {
         let quantity = parseInt (canapKart.quantity); //on récupère la qauntité
         totalQuantity += quantity; // on adittionne la valeur quantity à totalQuantity   
         }
-        return totalQuantity;
+    totalQuantityMarkup.innerText=`${totalQuantity}`;
     }
 
 /** 
-* fonction calculant le prix total 
+* fonction calculant et affichant le prix total 
 */
 
 function calculAndInsertTotalPrice() {
@@ -102,6 +103,7 @@ function calculAndInsertTotalPrice() {
     let array = JSON.parse(jsonArray);
     let totalPrice = 0 ; // on déclare et initialise la variable 
     let totalPriceMarkup= document.getElementById("totalPrice");
+    totalPriceMarkup.innerText=`${totalPrice}`;
 
     for (let canapKart of array) {  // pour chaque objet canapKart du tableau du localstorage
         let id = canapKart._id; //on récupère l'identifiant

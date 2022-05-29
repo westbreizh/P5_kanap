@@ -1,8 +1,8 @@
 
 // gestion de l'affichage des canapés dans le panier
 
-let jsonArray = localStorage.getItem("arrayKey"); // on récupère le tableau des canpés du loalStarage
-let array = JSON.parse(jsonArray); // on transforme Json en js
+let jsonArray = localStorage.getItem("arrayKey");  // on récupère le tableau des canapés du localStorage
+let array = JSON.parse(jsonArray);  // on transforme Json en js
 
 
 for (let canapKart of array) { // pour chaque élément du tableau
@@ -17,8 +17,8 @@ for (let canapKart of array) { // pour chaque élément du tableau
             let article = document.createElement("article"); // création de l'élement article
             article.classList.add("cart__item"); // on lui affecte l'attribut class cart_item
             article.setAttribute("data-id", `${_id}`); //ajout d'attribut data-id
-            article.setAttribute("data-color", `${canapKart.color}`); 
-            document.getElementById("cart__items").appendChild(article); // on injecte dans le dom le htmlElement
+            article.setAttribute("data-color", `${canapKart.color}`); //ajout d'attribut data-color
+            document.getElementById("cart__items").appendChild(article); // on injecte dans le dom le htmlElement article
 
             let imgContenair = document.createElement("div");
             imgContenair.classList.add("cart__item__img");
@@ -70,24 +70,16 @@ for (let canapKart of array) { // pour chaque élément du tableau
             input.setAttribute("value", `${canapKart.quantity}`);
             cartItemContentSettingsQuantity.appendChild(input);
             input.addEventListener("change", recupValueAndChangeQuantity);
-            input.addEventListener("change", ()=> {
-              totalQuantity = calculTotalQuantity();
-              totalQuantityMarkup.innerText=`${totalQuantity}`;
-              calculAndInsertTotalPrice();
-              }
-            )
+            input.addEventListener("change", calculAndInsertTotalPrice);
+            input.addEventListener("change", calculAndInsertTotalQuantity);
+              
             
             let cartItemContentSettingsDelete = document.createElement("div");
             cartItemContentSettingsDelete.classList.add("cart__item__content__settings__delete");
             cartItemContentSettings.appendChild(cartItemContentSettingsDelete);
             cartItemContentSettingsDelete.addEventListener("click", recupInfoCanapAndDelet);
+            cartItemContentSettingsDelete.addEventListener("click", calculAndInsertTotalQuantity);
             cartItemContentSettingsDelete.addEventListener("click", calculAndInsertTotalPrice);
-            cartItemContentSettingsDelete.addEventListener("click", ()=> {
-              totalQuantity = calculTotalQuantity();
-              totalQuantityMarkup.innerText=`${totalQuantity}`;
-              calculAndInsertTotalPrice();
-              })
-
 
 
             let p4 = document.createElement("p");
@@ -101,23 +93,12 @@ for (let canapKart of array) { // pour chaque élément du tableau
 
 // gestion de l'affichage de la quantité
 
-let totalQuantity = calculTotalQuantity();
-let totalQuantityMarkup= document.getElementById("totalQuantity");
-totalQuantityMarkup.innerText=`${totalQuantity}`;
+calculAndInsertTotalQuantity();
+
 
 // gestion de l'affichage du prix total
 
 calculAndInsertTotalPrice();
-
-// gestion de l'affichage de la nouvelle quantité et du nouveau prix suite à l'interraction avec l'utilisateur
-
-
-
-
-
-
-
-
 
 
 
@@ -232,55 +213,39 @@ emailInput.addEventListener("keyup", function (event) { // Chaque fois que l'uti
 })
 
 
-
-
-
-
 // gestion de la transmission ou non des données au serveur
 
-const form = document.querySelector('form');
+let commanderButton = document.getElementById('order');
 
-form.addEventListener("submit", function (event) {   // Chaque fois que l'utilisateur tente d'envoyer les données, on vérifie que les différents champs soient valide
+
+commanderButton.addEventListener("click", function (event) {   // Chaque fois que l'utilisateur tente d'envoyer les données, on vérifie que les différents champs soient valide
   if (!firstNameInput.validity.valid || !lastNameInput.validity.valid || addressNoSubmit || !cityInput.validity.valid || !emailInput.validity.valid) {
-    event.preventDefault(); // Et on empêche l'envoi des données du formulaire
+    console.log("hello");
   }
-},false);
+  else {
+    event.preventDefault();
+    console.log("hello2");
+    location.assign("./confirmation.html")
+    console.log("hello3");
+  }
+  }
+);
 
 
 
-/**
-   gestion de la commande, de sa confirmation
 
-  
-const adressInput = document.getElementById("adress");
-const cityInput = document.getElementById("city");
-const emailInput = document.getElementById("email");
-const form = document.querySelector('form');
-
- */
 
 /**
  * Création d'une classe contact ,contenant les données renseignés par l'utilisateur et un tableau de produit
- 
+ */
 
-
-
-
-
-class Contact {
-    constructor(userInput, array) {
-        this.userInput = userInput;
-        this.arrayCanapOrder = array;
-    }
-}
-
-let contact1 = new Contact(userInput, array);
-
-form.onsubmit = function(e) {
-  if (fname.value === '' || lname.value === '') {
-    e.preventDefault();
-    para.textContent = 'You need to fill in both names!';
+ class Contact {
+  constructor(userInput, array) {
+      this.userInput = userInput;
+      this.arrayCanapOrder = array;
   }
 }
 
-*/
+/**
+ * Création d'un tableau
+ */
