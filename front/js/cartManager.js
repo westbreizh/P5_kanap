@@ -42,7 +42,6 @@ function recupValueAndChangeQuantity(event) {
 *@param{event} l'objet evenement renoyé automatiquement par l'api au gestionnaire d'évenement
 */
 
-
 function recupInfoCanapAndDelet(Event) {
 let laCible= Event.currentTarget; // on récupère l'élément cliqué 
 let articleDelete = laCible.closest(".cart__item"); // la méthode closest nous permet de partir de l'élément input pour remonter à l'élément parent ayant pour class cart_item 
@@ -81,7 +80,6 @@ function deletCanapInlocalStorage(id, color) {
 * fonction calculant et affichant le nombre total de canapé commandé
 */
 
-
 function calculAndInsertTotalQuantity() {
     let totalQuantityMarkup= document.getElementById("totalQuantity");
     let jsonArray = localStorage.getItem("arrayKey"); // récupère le tableau dans le local storage
@@ -94,6 +92,8 @@ function calculAndInsertTotalQuantity() {
     totalQuantityMarkup.innerText=`${totalQuantity}`;
     }
 
+
+
 /** 
 * fonction calculant et affichant le prix total 
 */
@@ -103,23 +103,22 @@ function calculAndInsertTotalPrice() {
     let array = JSON.parse(jsonArray);
     let totalPrice = 0 ; // on déclare et initialise la variable 
     let totalPriceMarkup= document.getElementById("totalPrice");
-    totalPriceMarkup.innerText=`${totalPrice}`;
 
     for (let kanapLS of array) {  // pour chaque objet kanapLS du tableau du localstorage
         let id = kanapLS._id; //on récupère l'identifiant
         let quantity = parseInt( kanapLS.quantity) // on récupère la quantité depuis le localStorage
         let promisePrice = fetch(` http://localhost:3000/api/products/${id} `)//on récupère le prix depuis le serveur
         .then(data => data.json())
-        .then(jsonCanap => new Kanap(jsonCanap))  
-        .then (Kanap => parseInt (Kanap.price))
-        .then (price => price*quantity )
-        .then (prices => totalPrice += prices)
-        .then (totalPrice => totalPriceMarkup.innerText=`${totalPrice}`)
-        }
+        .then(jsonCanap => {
+           let canap =  new Kanap(jsonCanap);
+           let priceUnitaire =  parseInt (canap.price);
+           let price = priceUnitaire * quantity;
+           totalPrice += price ;
+           totalPriceMarkup.innerText=`${totalPrice}`;
+        })
+        .catch(error => {
+            alert("une erreure avec le serveur est survenue! Veuillez nous en excuser !");
+         });
+    }
 }
-
-
-        
-
-
-
+  

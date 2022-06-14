@@ -22,33 +22,18 @@ class Kanap{
 /**
  * Création d'une classe kanapLS   (LS pour local storage et non los angeles)
  * @constructor appelé par new KanapLS, construit notre nouvel objet js de la classe Canap
+ * @param {_id}  l'identifiant du canapé en question 
+ * @param {color}  la couleure du canapé choisi
+ * @param {quantity}  la quantité souhaité du canapé choisi
  * @this fait référence à notre objet en construction
  */
 class KanapLS { 
-    constructor(){
+    constructor(id, colorChoice, quantityChoice){
         this._id = id;
-        this.color = getColorChoice(); 
-        this.quantity = getQuantityChoice(); 
+        this.color = colorChoice; 
+        this.quantity = quantityChoice; 
     }
 }
 
 
-
-/**
- * Création d'une classe Contact    
- * @constructor appelé par new Contact, construit notre nouvel objet js de la classe contact
- * @param {arrayProductOrderId}  un tableau des identifiants des canapés sélectionnés
- * @this fait référence à notre objet en construction
- */
-
-class Contact{
-    constructor(arrayProductOrderId){
-        this.lastName = lastNameInput.value ;
-        this.firstName = firstNameInput.value;
-        this.adress = addressInput.value ;
-        this.city = cityInput.value;
-        this.email = emailInput.value;
-        this.arrayProduct = arrayProductOrderId;
-    }
-}
 

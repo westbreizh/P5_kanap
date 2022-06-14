@@ -1,6 +1,7 @@
 
 // gestion de l'affichage des canapés dans le panier
 
+
 let jsonArray = localStorage.getItem("arrayKey");  // on récupère le tableau des canapés du localStorage
 let arrayLocalStorage = JSON.parse(jsonArray);  // on transforme Json en js
 
@@ -99,7 +100,6 @@ calculAndInsertTotalQuantity();
 // gestion de l'affichage du prix total
 
 calculAndInsertTotalPrice();
-
 
 
 
@@ -204,21 +204,23 @@ return arrayProductOrderId;}
  * @param {contact} objet contact ayant des attributs renseigants sur les données rentrées par l'utilisateur et un tableau des id des canapés choisis 
  */
 
-function requestAndGoToConfirmationPage (contact) {  
+function requestAndGoToConfirmationPage (contact, products) {  
   fetch(`http://localhost:3000/api/products/order`, { 
 	  method: "POST",
 	  headers: { 
     'Accept': 'application/json', 
     'Content-Type': 'application/json' 
     },
-	body: JSON.stringify(contact)
+	body: (JSON.stringify(contact), JSON.stringify(products))
   })
-    .catch( () => console.log("ya un yeucou ds le tagepo!!"))
     .then(data => data.json())
-    .then(numberOrder =>
-      console.log("hello!!")
+    .then(numberOrder => {
+      console.log("ff")
       //location.assign("./confirmation.html?id=${numberOrder}")
-    )
+    })
+    .catch(error => {
+      alert("une erreure avec le serveur est survenue! Veuillez nous en excuser !");
+   });
 };
 
 
@@ -232,15 +234,22 @@ let orderButton = document.getElementById('order');
 
 orderButton.addEventListener("click", function (event) {   // Chaque fois que l'utilisateur tente d'envoyer les données, on vérifie que les différents champs soient valide
   if (!(firstNameInput.validity.valid)  || !(lastNameInput.validity.valid) || !(addressInput.validity.valid) || !(cityInput.validity.valid) || !(emailInput.validity.valid)) // si un des champs est vide 
-    { }// comportement par défault de submit => renvoit la réponse type à required non valid ...}
+    {alert("problème") }// comportement par défault de submit => renvoit la réponse type à required non valid ...}
   else if ( !(firstNameRegex.test (firstNameInput.value ) && lastNameRegex.test (lastNameInput.value ) && addressRegex.test(addressInput.value )  && cityRegex.test (cityInput.value )  )){ // si un des champs est non valides
       event.preventDefault();
+      {alert("2problème")}
       }
-      else { // champ correct
+      else { // champ rempli et correct
         event.preventDefault();
-        let arrayProductOrderId = arrayProductOrder();
-        let contact = new Contact (arrayProductOrderId);
-        requestAndGoToConfirmationPage(contact);
+        let contact = {
+          lastName :lastNameInput.value,
+          firstName : firstNameInput.value,
+          adress : addressInput.value,
+          city : cityInput.value,
+          email : emailInput.value,
+        }
+        let products = arrayProductOrder();
+        requestAndGoToConfirmationPage(contact, products);
       } 
 })
 
