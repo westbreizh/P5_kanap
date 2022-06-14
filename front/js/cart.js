@@ -213,10 +213,11 @@ function requestAndGoToConfirmationPage (contact) {
     },
 	body: JSON.stringify(contact)
   })
-
+    .catch( () => console.log("ya un yeucou ds le tagepo!!"))
     .then(data => data.json())
     .then(numberOrder =>
-      location.assign("./confirmation.html?id=${numberOrder}")
+      console.log("hello!!")
+      //location.assign("./confirmation.html?id=${numberOrder}")
     )
 };
 
@@ -230,21 +231,17 @@ function requestAndGoToConfirmationPage (contact) {
 let orderButton = document.getElementById('order');
 
 orderButton.addEventListener("click", function (event) {   // Chaque fois que l'utilisateur tente d'envoyer les données, on vérifie que les différents champs soient valide
-  if (!(firstNameInput.validity.valid)  || !(lastNameInput.validity.valid) || !(addressInput.validity.valid) || !(cityInput.validity.valid) || !(emailInput.validity.valid)) 
-    {      console.log("aaa");
-  }// comportement par défault de submit => renvoit la réponse type à required non valid ...}
-  else if ( !(firstNameRegex.test (firstNameInput.value ) && lastNameRegex.test (lastNameInput.value ) && addressRegex.test(addressInput.value )  && cityRegex.test (cityInput.value )  )){
+  if (!(firstNameInput.validity.valid)  || !(lastNameInput.validity.valid) || !(addressInput.validity.valid) || !(cityInput.validity.valid) || !(emailInput.validity.valid)) // si un des champs est vide 
+    { }// comportement par défault de submit => renvoit la réponse type à required non valid ...}
+  else if ( !(firstNameRegex.test (firstNameInput.value ) && lastNameRegex.test (lastNameInput.value ) && addressRegex.test(addressInput.value )  && cityRegex.test (cityInput.value )  )){ // si un des champs est non valides
       event.preventDefault();
-      console.log("pas bon");
       }
-      else {
+      else { // champ correct
         event.preventDefault();
         let arrayProductOrderId = arrayProductOrder();
         let contact = new Contact (arrayProductOrderId);
         requestAndGoToConfirmationPage(contact);
       } 
-      console.log("dd");
-
 })
 
 
