@@ -89,6 +89,9 @@ for (let kanapLS of arrayLocalStorage) { // pour chaque élément du tableau
             cartItemContentSettingsDelete.appendChild(p4);
             
         })
+        .catch(error => {
+          alert("une erreure avec le serveur est survenue! Veuillez nous en excuser !");
+          });
 }
 
 
@@ -118,7 +121,7 @@ firstNameInput.addEventListener("keyup", () => { // Chaque fois que l'utilisateu
   }
   else{
   // si le chanp est invalide
-    firstNameError.innerHTML = "Veuillez renseigner un prénom valide svp !"; // On réinitialise le contenu
+    firstNameError.innerHTML = "Veuillez renseigner un prénom valide svp, celui ne peut contenir de chiffres ou de caractère spéciaux comme @ ... !"; // on injecte un message d'erreur dans le dom
   }
 });
 
@@ -133,7 +136,7 @@ lastNameInput.addEventListener("keyup", () => { // Chaque fois que l'utilisateur
     lastNameError.innerHTML = ""; // On réinitialise le contenu
   }
   else{    // si le chanp est invalide
-    lastNameError.innerHTML = "tu vas me filer un nom correct enf**!!"; // On réinitialise le contenu
+    lastNameError.innerHTML = "Veuillez renseigner un nom valide svp, celui ne peut contenir de chiffres ou de caractère spéciaux comme @ ... !"; // on injecte un message d'erreur dans le dom
   }
 });
 
@@ -142,14 +145,14 @@ lastNameInput.addEventListener("keyup", () => { // Chaque fois que l'utilisateur
 
 let addressInput= document.getElementById("address"); // on récupère l'élément input de l'adresse
 let addressError = document.getElementById("addressErrorMsg"); // on récupère l'élément où l'on va inserer le message d'erreur
-let addressRegex = /^[a-zA-Z0-9\s,.'-]{3,}$/ ; // on définit un objet regex
+let addressRegex = /^[a-zA-Z0-9\s,.'-\xC0-\uFFFF]{3,}$/ ; // on définit un objet regex
 
 addressInput.addEventListener("keyup", () => { // Chaque fois que l'utilisateur saisie une donnée ...
   if ( addressRegex.test (addressInput.value )){ //  si la valeur saisie est correcte
     addressError.innerHTML = ""; // On réinitialise le contenu
   }
   else{ //  si le chanp est invalide
-      addressError.innerHTML = "tu vas me filer une adresse correct enf**!!"; // On réinitialise le contenu
+      addressError.innerHTML = "Veuillez renseigner une adresse valide svp, celle-ci ne peut contenir de caractère spéciaux comme @ ... !"; // on injecte un message d'erreur dans le dom
     }
 });
 
@@ -201,7 +204,9 @@ return arrayProductOrderId;}
 
 /**
  * Envoie au serveur des informations de la commande, qui en retour nous donne un numéro de commande 
- * @param {contact} objet contact ayant des attributs renseigants sur les données rentrées par l'utilisateur et un tableau des id des canapés choisis 
+ * @param {contact} objet contact ayant des attributs renseignants sur les données rentrées par l'utilisateur et un tableau des id des canapés choisis 
+ * @param {products} tableau contenant les id des différents canapés sélectionnés 
+
  */
 
 function requestAndGoToConfirmationPage (contact, products) {  
@@ -211,15 +216,16 @@ function requestAndGoToConfirmationPage (contact, products) {
     'Accept': 'application/json', 
     'Content-Type': 'application/json' 
     },
-	body: (JSON.stringify(contact), JSON.stringify(products))
+	//body: (JSON.stringify(contact), JSON.stringify(products))
+    body: (contact, products)
+
   })
     .then(data => data.json())
     .then(numberOrder => {
-      console.log("ff")
-      //location.assign("./confirmation.html?id=${numberOrder}")
+      location.assign("./confirmation.html?id=${numberOrder}")
     })
     .catch(error => {
-      alert("une erreure avec le serveur est survenue! Veuillez nous en excuser !");
+      alert("une erreur avec le serveur est survenue! Veuillez nous en excuser !");
    });
 };
 
@@ -234,10 +240,9 @@ let orderButton = document.getElementById('order');
 
 orderButton.addEventListener("click", function (event) {   // Chaque fois que l'utilisateur tente d'envoyer les données, on vérifie que les différents champs soient valide
   if (!(firstNameInput.validity.valid)  || !(lastNameInput.validity.valid) || !(addressInput.validity.valid) || !(cityInput.validity.valid) || !(emailInput.validity.valid)) // si un des champs est vide 
-    {alert("problème") }// comportement par défault de submit => renvoit la réponse type à required non valid ...}
+    {}// comportement par défault de submit géré par html5=> renvoit la réponse type à required non valid ...}
   else if ( !(firstNameRegex.test (firstNameInput.value ) && lastNameRegex.test (lastNameInput.value ) && addressRegex.test(addressInput.value )  && cityRegex.test (cityInput.value )  )){ // si un des champs est non valides
       event.preventDefault();
-      {alert("2problème")}
       }
       else { // champ rempli et correct
         event.preventDefault();
@@ -256,16 +261,53 @@ orderButton.addEventListener("click", function (event) {   // Chaque fois que l'
 
 
 
+/*explication regex
+
+pour l'adresse
+=>   ^[a-zA-Z0-9\s,.'-\xC0-\uFFFF]{3,}$/ intervalle, classe de caractère de lettre min ou majuscule ou des chiffres
+ ^ le premier element de l'expression
+ $ le dernier element de l'expression
+ [ ] definit une classe de caractère
+a-z,A-Z ou 0-9 ; le - définit un intervalle de caractère ici minuscule majuscule et chiffre 
+\s définit un caractère blanc : d'espace retour à la ligne ...
+, . ' - également accepté 
+xCO-uFFF prend on compte les caratère de la table unicode qui comprend les caractères plus spécifiques avec les accents, les cédille ou caractères d'autre pays
+/{3,}quantificateur, une séquence de trois fois minimum la classe de caractère défini en amont
+au final on accèpte une expression avec 3 caractère minimum mentionné décrit dans la classe de caractère
 
 
+pour la saisie du prénom et du nom
+=>  /^([a-zA-Z\xC0-\uFFFF]{1,20}[ \-\']{0,1}){1,3}$
+
+^ le premier element de l'expression
+ $ le dernier element de l'expression
+ [ ] definit  une classe de caractère
+a-z,A-Z  le - définit un intervalle de caractère ici minuscule majuscule
+xCO-uFFF prend on compte les caratère de la table unicode qui comprend les caractères plus spécifiques avec les accents, les cédille ou caractères d'autre pays
+, . ' - également accepté ...
+{1,20} quantificateur de 1 à 20 fois maximum un caractère définit par la classe de caractère
+{3,}quantificateur, une séquence de trois fois minimum la classe de caractère défini en amont
+/ ^([a-zA-Z\xC0-\uFFFF]{0,20}  il faut un mot de 0 à 20 lettres suivit de 
+  [ \-\'] d'un espace  tiret ou apostrophe de {0,1} 1 fois maximum
+  {1,3} ce mot suivi d'un espace doit apparître minimum une fois maximum 3 fois ...
 
 
+pour la saisie de la ville
 
+ =>   /^[a-zA-Z\u0080-\u024F]+(?:([\ \-\']|(\.\ ))[a-zA-Z\u0080-\u024F]+)*$/
+ 
+^ le premier element de l'expression
+ + signifie une fois minimum repète le caractère précédent une ou plusieur fois 
 
+^[a-zA-Z\u0080-\u024F]+ au début une fois minimum la classe de caractère définit suivi de 
 
+(?:([\ \-\']|(\.\ ))    
+? signifie zero ou une occurence correspondant à un espace, une apostrophe ... suivi de 
 
+[a-zA-Z\u0080-\u024F]+   au moins une fois
 
-
+* répète le caractère précédent zéro ou plusieurs fois 
+$ le dernier element de l'expression
 
 
 

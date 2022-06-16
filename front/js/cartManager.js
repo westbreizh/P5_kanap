@@ -35,25 +35,6 @@ function recupValueAndChangeQuantity(event) {
 }
 
 
-
-/** 
-* récupération  de l'id et de la couleur  du canapé supprimé
-*suppresseion du canapé dans le dom, puis appel de la fonction deletCanapInlocalStorage pour suppression de canpé dans le localStorage
-*@param{event} l'objet evenement renoyé automatiquement par l'api au gestionnaire d'évenement
-*/
-
-function recupInfoCanapAndDelet(Event) {
-let laCible= Event.currentTarget; // on récupère l'élément cliqué 
-let articleDelete = laCible.closest(".cart__item"); // la méthode closest nous permet de partir de l'élément input pour remonter à l'élément parent ayant pour class cart_item 
-let id = articleDelete.dataset.id; // on récupère l'id via l'attribut contenu dans l'élément article
-let color = articleDelete.dataset.color;  // on récupère la couleure via l'attribut contenu dans l'élément article
-articleDelete.remove(); // on suprime l'élément article du dom
-deletCanapInlocalStorage(id, color) // appel de la fonction 
-
-}
-
-
-
 /** 
 * fonction supprimant le canapé cliqué dans le localStorage
 *@param{id} l'identifiant du canapé sélectionné
@@ -73,6 +54,23 @@ function deletCanapInlocalStorage(id, color) {
         }
     }
 }
+
+
+/** 
+* récupération  de l'id et de la couleur  du canapé supprimé
+*suppresseion du canapé dans le dom, puis appel de la fonction deletCanapInlocalStorage pour suppression de canpé dans le localStorage
+*@param{event} l'objet evenement renoyé automatiquement par l'api au gestionnaire d'évenement
+*/
+
+function recupInfoCanapAndDelet(Event) {
+let laCible= Event.currentTarget; // on récupère l'élément cliqué 
+let articleDelete = laCible.closest(".cart__item"); // la méthode closest nous permet de partir de l'élément input pour remonter à l'élément parent ayant pour class cart_item 
+let id = articleDelete.dataset.id; // on récupère l'id via l'attribut contenu dans l'élément article
+let color = articleDelete.dataset.color;  // on récupère la couleure via l'attribut contenu dans l'élément article
+articleDelete.remove(); // on suprime l'élément article du dom
+deletCanapInlocalStorage(id, color); // appel de la fonction 
+}
+
 
 
 
