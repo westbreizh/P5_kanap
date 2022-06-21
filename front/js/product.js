@@ -37,7 +37,7 @@ fetch(` http://localhost:3000/api/products/${id} `) // on récupère les donnée
         };
     })
     .catch(error => {
-        alert("une erreur est survenue! Veuillez nous en excuser ! Vous allez être redigiré vers la page d'accueil!");
+        alert("une erreur est survenue! Veuillez nous en excuser ! Vous allez être redigiré vers la page d'accueil!"); // erreur pouvant être du à un mauvais id
         location.assign("index.html")
 
      });
