@@ -90,7 +90,8 @@ for (let kanapLS of arrayLocalStorage) { // pour chaque élément du tableau
             
         })
         .catch(error => {
-          alert("une erreure avec le serveur est survenue! Veuillez nous en excuser !");
+          alert("une erreur est survenue! Veuillez nous en excuser !");
+          console.log(error);
           });
 }
 
@@ -136,7 +137,7 @@ lastNameInput.addEventListener("keyup", () => { // Chaque fois que l'utilisateur
     lastNameError.innerHTML = ""; // On réinitialise le contenu
   }
   else{    // si le chanp est invalide
-    lastNameError.innerHTML = "Veuillez renseigner un nom valide svp, celui ne peut contenir de chiffres ou de caractère spéciaux comme @ ... !"; // on injecte un message d'erreur dans le dom
+    lastNameError.innerHTML = "Veuillez renseigner un nom valide svp, seul les caractère.... !"; // on injecte un message d'erreur dans le dom
   }
 });
 
@@ -216,8 +217,8 @@ function requestAndGoToConfirmationPage (contact, products) {
     'Accept': 'application/json', 
     'Content-Type': 'application/json' 
     },
-	//body: (JSON.stringify(contact), JSON.stringify(products))
-    body: (contact, products)
+	  body: (JSON.stringify(contact), JSON.stringify(products))
+    //body: (contact, products)
 
   })
     .then(data => data.json())
@@ -225,7 +226,7 @@ function requestAndGoToConfirmationPage (contact, products) {
       location.assign("./confirmation.html?id=${numberOrder}")
     })
     .catch(error => {
-      alert("une erreur avec le serveur est survenue! Veuillez nous en excuser !");
+      alert("une erreur  est survenue! Veuillez nous en excuser !");
    });
 };
 
@@ -262,7 +263,7 @@ orderButton.addEventListener("click", function (event) {   // Chaque fois que l'
 
 
 /*explication regex
-
+ev
 pour l'adresse
 =>   ^[a-zA-Z0-9\s,.'-\xC0-\uFFFF]{3,}$/ intervalle, classe de caractère de lettre min ou majuscule ou des chiffres
  ^ le premier element de l'expression
@@ -277,8 +278,8 @@ au final on accèpte une expression avec 3 caractère minimum mentionné décrit
 
 
 pour la saisie du prénom et du nom
-=>  /^([a-zA-Z\xC0-\uFFFF]{1,20}[ \-\']{0,1}){1,3}$
-
+=>  /^([a-zA-Z\À-ÿ\]{1,20}[ \-\']{0,1}){1,3}$
+^([a-zA-Z\À-ÿ\]{1,20}[ \-\']{0,1}){1,3}$
 ^ le premier element de l'expression
  $ le dernier element de l'expression
  [ ] definit  une classe de caractère
@@ -294,7 +295,7 @@ xCO-uFFF prend on compte les caratère de la table unicode qui comprend les cara
 
 pour la saisie de la ville
 
- =>   /^[a-zA-Z\u0080-\u024F]+(?:([\ \-\']|(\.\ ))[a-zA-Z\u0080-\u024F]+)*$/
+ =>  
  
 ^ le premier element de l'expression
  + signifie une fois minimum repète le caractère précédent une ou plusieur fois 

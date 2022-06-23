@@ -115,7 +115,8 @@ function calculAndInsertTotalPrice() {
            totalPriceMarkup.innerText=`${totalPrice}`;
         })
         .catch(error => {
-            alert("une erreure avec le serveur est survenue! Veuillez nous en excuser !");
+            alert("une erreur est survenue! Veuillez nous en excuser !");
+            console.log(error);
          });
     }
 }

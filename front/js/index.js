@@ -41,7 +41,8 @@ fetch("http://localhost:3000/api/products") // on récupère les données brutes
         };
     })
     .catch(error => {
-        alert("une erreure avec le serveur est survenue! Veuillez nous en excuser !");
+        alert("une erreur est survenue! Veuillez nous en excuser !");
+        console.log(error);
      });
 
 
