@@ -91,7 +91,10 @@ for (let kanapLS of arrayLocalStorage) { // pour chaque élément du tableau
         })
         .catch(error => {
           alert("une erreur est survenue! Veuillez nous en excuser !");
+<<<<<<< HEAD
           console.log(error);
+=======
+>>>>>>> 348659fa4f9436081019ffda17db93cf245226be
           });
 }
 
@@ -122,7 +125,7 @@ firstNameInput.addEventListener("keyup", () => { // Chaque fois que l'utilisateu
   }
   else{
   // si le chanp est invalide
-    firstNameError.innerHTML = "Veuillez renseigner un prénom valide svp, celui ne peut contenir de chiffres ou de caractère spéciaux comme @ ... !"; // on injecte un message d'erreur dans le dom
+    firstNameError.innerHTML = "Veuillez renseigner un prénom valide svp, celui doit contenir au minimum 3 caractères mais pas de chiffres ou de caractère spéciaux comme @ ... !"; // on injecte un message d'erreur dans le dom
   }
 });
 
@@ -137,7 +140,11 @@ lastNameInput.addEventListener("keyup", () => { // Chaque fois que l'utilisateur
     lastNameError.innerHTML = ""; // On réinitialise le contenu
   }
   else{    // si le chanp est invalide
+<<<<<<< HEAD
     lastNameError.innerHTML = "Veuillez renseigner un nom valide svp, seul les caractère.... !"; // on injecte un message d'erreur dans le dom
+=======
+    lastNameError.innerHTML = "Veuillez renseigner un nom valide svp, celui doit contenir au minimum 3 caractères mais pas de chiffres ou de caractère spéciaux comme @ ... !"; // on injecte un message d'erreur dans le dom
+>>>>>>> 348659fa4f9436081019ffda17db93cf245226be
   }
 });
 
@@ -153,7 +160,7 @@ addressInput.addEventListener("keyup", () => { // Chaque fois que l'utilisateur 
     addressError.innerHTML = ""; // On réinitialise le contenu
   }
   else{ //  si le chanp est invalide
-      addressError.innerHTML = "Veuillez renseigner une adresse valide svp, celle-ci ne peut contenir de caractère spéciaux comme @ ... !"; // on injecte un message d'erreur dans le dom
+      addressError.innerHTML = "Veuillez renseigner une adresse valide svp, celui doit contenir au minimum 3 caractères mais pas de caractère spéciaux comme @ ...  !"; // on injecte un message d'erreur dans le dom
     }
 });
 
@@ -217,7 +224,11 @@ function requestAndGoToConfirmationPage (contact, products) {
     'Accept': 'application/json', 
     'Content-Type': 'application/json' 
     },
+<<<<<<< HEAD
 	  body: (JSON.stringify(contact), JSON.stringify(products))
+=======
+	body: (JSON.stringify(contact), JSON.stringify(products))
+>>>>>>> 348659fa4f9436081019ffda17db93cf245226be
     //body: (contact, products)
 
   })

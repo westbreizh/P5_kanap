@@ -116,7 +116,10 @@ function calculAndInsertTotalPrice() {
         })
         .catch(error => {
             alert("une erreur est survenue! Veuillez nous en excuser !");
+<<<<<<< HEAD
             console.log(error);
+=======
+>>>>>>> 348659fa4f9436081019ffda17db93cf245226be
          });
     }
 }

@@ -37,9 +37,14 @@ fetch(` http://localhost:3000/api/products/${id} `) // on récupère les donnée
         };
     })
     .catch(error => {
+<<<<<<< HEAD
         console.log(error);
         alert("une erreur est survenue! Veuillez nous en excuser ! Vous allez être redigiré vers la page d'accueil!");
         location.assign("index.html");
+=======
+        alert("une erreur est survenue! Veuillez nous en excuser ! Vous allez être redigiré vers la page d'accueil!"); // erreur pouvant être du à un mauvais id
+        location.assign("index.html")
+>>>>>>> 348659fa4f9436081019ffda17db93cf245226be
 
      });
 
