@@ -168,7 +168,7 @@ cityInput.addEventListener("keyup", () => { // Chaque fois que l'utilisateur sai
     cityError.innerHTML = ""; // On réinitialise le contenu
   }
   else{ //  si le chanp est invalide
-      cityError.innerHTML = "Veuillez rentrer un nom de ville correct svp, celui peut contenir des plusieurs mots séparés par des espaces, tiret mais ne peut contenir de chiffres ou caractères spéciaux comme @ !"; // On réinitialise le contenu
+      cityError.innerHTML = "Veuillez rentrer un nom de ville correct svp, celui peut contenir plusieurs mots séparés par des espaces, tiret mais ne peut contenir de chiffres ou caractères spéciaux comme @ !"; // On réinitialise le contenu
     }
 });
 
@@ -208,17 +208,19 @@ function arrayProductOrder(){
  */
 
 function requestAndGoToConfirmationPage (contact, products) {  
+
   fetch(`http://localhost:3000/api/products/order`, { 
 	  method: "POST",
 	  headers: { 
     'Accept': 'application/json', 
     'Content-Type': 'application/json' 
     },
-	  body: (JSON.stringify(contact), JSON.stringify(products))
+	  body: JSON.stringify({contact, products})
   })
     .then(data => data.json())
     .then(jsonresp=> {
-      location.assign(`./confirmation.html?id=${jsonresp}`)
+      console.log(jsonresp);
+      location.assign(`./confirmation.html?id=${jsonresp.orderId}`);
     })
     .catch(error => {
       alert("une erreur  est survenue! Veuillez nous en excuser !");
